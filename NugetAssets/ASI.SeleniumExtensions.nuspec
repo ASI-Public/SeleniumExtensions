@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata minClientVersion="2.8">
-    <id>SeleniumExtensions</id>
+    <id>ASI.SeleniumExtensions</id>
     <version>$version$</version>
-    <title>SeleniumExtensions</title>
+    <title>ASI.SeleniumExtensions</title>
     <authors>Jared Ricevuto, Jason Woods</authors>
     <owners>Applied Systems, Inc.</owners>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>

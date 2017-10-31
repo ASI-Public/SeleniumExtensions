@@ -7,8 +7,8 @@
     <ProjectGuid>{E70D7A33-517E-46D1-A9BB-8CAD48840A78}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SeleniumExtensions</RootNamespace>
-    <AssemblyName>SeleniumExtensions</AssemblyName>
+    <RootNamespace>ASI.SeleniumExtensions</RootNamespace>
+    <AssemblyName>ASI.SeleniumExtensions</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\SeleniumExtensions.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\ASI.SeleniumExtensions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,7 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\SeleniumExtensions.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\ASI.SeleniumExtensions.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Deployable|AnyCPU'">
     <OutputPath>bin\Deployable\</OutputPath>
@@ -41,7 +41,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Deployable\SeleniumExtensions.xml</DocumentationFile>
+    <DocumentationFile>bin\Deployable\ASI.SeleniumExtensions.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -84,7 +84,7 @@
     <Compile Include="SearchableElementTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NugetAssets\SeleniumExtensions.nuspec" />
+    <None Include="NugetAssets\ASI.SeleniumExtensions.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -106,10 +106,10 @@
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
     <MakeDir Directories="$(SolutionDir)NuGetBuild" />
-    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\SeleniumExtensions.dll" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\net452" />
-    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\SeleniumExtensions.xml" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\net452" />
-    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\SeleniumExtensions.pdb" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\net452" />
-    <Copy SourceFiles="$(ProjectDir)NugetAssets\SeleniumExtensions.nuspec" DestinationFolder="$(SolutionDir)NuGetBuild" />
-    <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)NuGetBuild" MetadataAssembly="$(OutputPath)SeleniumExtensions.dll" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\ASI.SeleniumExtensions.dll" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\net452" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\ASI.SeleniumExtensions.xml" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\net452" />
+    <Copy SourceFiles="$(SolutionDir)bin\$(ConfigurationName)\ASI.SeleniumExtensions.pdb" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\net452" />
+    <Copy SourceFiles="$(ProjectDir)NugetAssets\ASI.SeleniumExtensions.nuspec" DestinationFolder="$(SolutionDir)NuGetBuild" />
+    <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)NuGetBuild" MetadataAssembly="$(OutputPath)ASI.SeleniumExtensions.dll" />
   </Target>
 </Project>

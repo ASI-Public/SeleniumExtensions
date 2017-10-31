@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace SeleniumExtensions
+namespace ASI.SeleniumExtensions
 {
   [TestFixture]
   public class SearchableElementTests

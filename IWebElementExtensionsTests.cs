@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace SeleniumExtensions
+namespace ASI.SeleniumExtensions
 {
   [TestFixture]
   // ReSharper disable once InconsistentNaming

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 
-namespace SeleniumExtensions
+namespace ASI.SeleniumExtensions
 {
   [TestFixture, Category("SearchableDocument")]
   public class SearchableDocumentTests

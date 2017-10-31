@@ -3,7 +3,7 @@ using System.Linq;
 using HtmlAgilityPack;
 using OpenQA.Selenium;
 
-namespace SeleniumExtensions
+namespace ASI.SeleniumExtensions
 {
   public class SearchableElement
   {

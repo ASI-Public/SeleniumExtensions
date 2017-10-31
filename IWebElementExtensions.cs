@@ -6,7 +6,7 @@ using System.Linq;
 using HtmlAgilityPack;
 using OpenQA.Selenium;
 
-namespace SeleniumExtensions
+namespace ASI.SeleniumExtensions
 {
   // ReSharper disable once InconsistentNaming
   public static class IWebElementExtensions
