@@ -1,55 +1,71 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics.Contracts;
-using System.IO;
 using System.Linq;
-using HtmlAgilityPack;
 using OpenQA.Selenium;
 
 namespace ASI.SeleniumExtensions
 {
   // ReSharper disable once InconsistentNaming
+  /// <summary>
+  /// IWebElement Extension class
+  /// </summary>
   public static class IWebElementExtensions
   {
     /// <summary>
     /// Converts an HTML table into a <see cref="DataTable"/>
     /// </summary>
     /// <param name="webElement">The table element to convert</param>
+    /// <param name="forceHeaderRow">Force first row to be considered the header row</param>
     /// <exception cref="ArgumentException">Thrown when the target element is not an HTML table.</exception>
     [Pure]
-    public static DataTable ToDataTable(this IWebElement webElement)
+    public static DataTable ToDataTable(this IWebElement webElement, bool forceHeaderRow = false)
     {
       if (string.Compare(webElement.TagName, "table", StringComparison.OrdinalIgnoreCase) != 0)
       {
         throw new ArgumentException("Not a table element", nameof(webElement));
       }
 
-      var dataTable = new DataTable();
-      var html = webElement.OuterHtml();
-      using (var reader = new StringReader(html))
+      return TryWebElementParse(webElement, forceHeaderRow);
+    }
+
+    private static DataTable TryWebElementParse(IWebElement webElement, bool forceHeaderRow)
+    {
+      var dataTable = new DataTable(webElement.GetAttribute("id"));
+
+      var rows = webElement.FindElements(By.TagName("tr"));
+      var headers = webElement.FindElements(By.TagName("th"));
+      if (forceHeaderRow && !headers.Any())
       {
-        var nodeNavigator = new HtmlNodeNavigator(reader);
-        var headers = nodeNavigator.Select("//th").Cast<HtmlNodeNavigator>();
-        dataTable.Columns.AddRange(headers.Select(h =>
-          new DataColumn(h.CurrentNode.InnerText)).ToArray());
+        headers = webElement.FindElements(By.XPath("//tr[1]/td"));
+        rows = new ReadOnlyCollection<IWebElement>(rows.Skip(1).ToList());
+      }
 
-        var rows = nodeNavigator.Select("//tr").Cast<HtmlNodeNavigator>();
-        if (dataTable.Columns.Count == 0)
+      if (webElement.FindElements(By.XPath("//tr/th")).Any())
+        rows = new ReadOnlyCollection<IWebElement>(rows.Skip(1).ToList());
+
+
+      dataTable.Columns.AddRange(headers.Select(h => new DataColumn(h.Text, typeof(SearchableElement))).ToArray());
+
+      if (dataTable.Columns.Count == 0)
+      {
+        var count = rows.First().FindElements(By.TagName("td")).Count;
+        dataTable.Columns.AddRange(Enumerable.Range(0, count).Select(_ =>
+          new DataColumn(string.Empty, typeof(SearchableElement))).ToArray());
+      }
+
+      foreach (var row in rows)
+      {
+        var elems = row.FindElements(By.TagName("td"));
+        var cells = new List<SearchableElement>();
+        foreach (var elem in elems)
         {
-          var count = rows.First().CurrentNode.ChildNodes.Count(c => c.Name == "td");
-          dataTable.Columns.AddRange(Enumerable.Range(0, count).Select(_ =>
-            new DataColumn()).ToArray());
-        }
-        else
-        {
-          rows = rows.Skip(1);
+          cells.Add(new SearchableElement(elem.Text));
         }
 
-        foreach (var row in rows)
-        {
-          dataTable.Rows.Add(row.CurrentNode.ChildNodes.Where(c =>
-            c.Name == "td").Select(c => (object)c.InnerHtml).ToArray());
-        }
+        dataTable.Rows.Add(cells.ToArray<object>());
       }
 
       return dataTable;

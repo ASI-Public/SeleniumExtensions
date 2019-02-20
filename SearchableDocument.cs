@@ -8,6 +8,7 @@ namespace ASI.SeleniumExtensions
   public class SearchableDocument
   {
     HtmlDocument PageSource { get; }
+    public SearchableElement BaseElement => FindElements(By.XPath("//*"))[0];
 
     public SearchableDocument(IWebElement webElement)
       : this(webElement.OuterHtml())

@@ -12,13 +12,18 @@ namespace ASI.SeleniumExtensions
     public SearchableElement(IWebElement webElement)
       : this(webElement.OuterHtml())
     {
+      IWebElement = webElement;
     }
 
-    public SearchableElement(string element) =>
+    public SearchableElement(string element)
+    {
       _node = HtmlNode.CreateNode(element);
+    }
 
     internal SearchableElement(HtmlNode node) =>
       _node = node;
+
+    public IWebElement IWebElement { get; }
 
     public string Id => _node.Id;
 
