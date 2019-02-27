@@ -7,7 +7,7 @@ namespace ASI.SeleniumExtensions
 {
   public class SearchableElement
   {
-    readonly HtmlNode _node;
+    private readonly HtmlNode _node;
 
     public SearchableElement(IWebElement webElement)
       : this(webElement.OuterHtml())
@@ -20,15 +20,16 @@ namespace ASI.SeleniumExtensions
       _node = HtmlNode.CreateNode(element);
     }
 
-    internal SearchableElement(HtmlNode node) =>
+    internal SearchableElement(HtmlNode node)
+    {
       _node = node;
+    }
 
     public IWebElement IWebElement { get; }
 
     public string Id => _node.Id;
 
-    public string Name => _node.Attributes.Contains("name") ?
-      _node.Attributes["name"].Value : string.Empty;
+    public string Name => _node.Attributes.Contains("name") ? _node.Attributes["name"].Value : string.Empty;
 
     public string ElementType => _node.Name;
 
@@ -48,7 +49,7 @@ namespace ASI.SeleniumExtensions
 
     public IReadOnlyList<string> Classes => Attributes.TryGetValue("class", out var value)
       ? value.Trim().Length == 0
-        ? (IReadOnlyList<string>)new string[0]
+        ? (IReadOnlyList<string>) new string[0]
         : value.Split(' ').ToList()
       : new string[0];
   }

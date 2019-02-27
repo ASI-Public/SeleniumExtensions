@@ -10,12 +10,12 @@ namespace ASI.SeleniumExtensions
 {
   // ReSharper disable once InconsistentNaming
   /// <summary>
-  /// IWebElement Extension class
+  ///   IWebElement Extension class
   /// </summary>
   public static class IWebElementExtensions
   {
     /// <summary>
-    /// Converts an HTML table into a <see cref="DataTable"/>
+    ///   Converts an HTML table into a <see cref="DataTable" />
     /// </summary>
     /// <param name="webElement">The table element to convert</param>
     /// <param name="forceHeaderRow">Force first row to be considered the header row</param>
@@ -24,9 +24,7 @@ namespace ASI.SeleniumExtensions
     public static DataTable ToDataTable(this IWebElement webElement, bool forceHeaderRow = false)
     {
       if (string.Compare(webElement.TagName, "table", StringComparison.OrdinalIgnoreCase) != 0)
-      {
         throw new ArgumentException("Not a table element", nameof(webElement));
-      }
 
       return TryWebElementParse(webElement, forceHeaderRow);
     }
@@ -45,8 +43,7 @@ namespace ASI.SeleniumExtensions
 
       if (webElement.FindElements(By.XPath("//tr/th")).Any())
         rows = new ReadOnlyCollection<IWebElement>(rows.Skip(1).ToList());
-
-
+      
       dataTable.Columns.AddRange(headers.Select(h => new DataColumn(h.Text, typeof(SearchableElement))).ToArray());
 
       if (dataTable.Columns.Count == 0)
@@ -61,9 +58,7 @@ namespace ASI.SeleniumExtensions
         var elems = row.FindElements(By.TagName("td"));
         var cells = new List<SearchableElement>();
         foreach (var elem in elems)
-        {
-          cells.Add(new SearchableElement(elem.Text));
-        }
+          cells.Add(new SearchableElement(elem));
 
         dataTable.Rows.Add(cells.ToArray<object>());
       }
@@ -72,30 +67,48 @@ namespace ASI.SeleniumExtensions
     }
 
     /// <summary>
-    /// Converts the element into a <see cref="SearchableDocument"/>
+    ///   Converts the element into a <see cref="SearchableDocument" />
     /// </summary>
     /// <param name="webElement"></param>
     /// <returns></returns>
     [Pure]
-    public static SearchableDocument ToSearchableDocument(this IWebElement webElement) =>
-      new SearchableDocument(webElement);
+    public static SearchableDocument ToSearchableDocument(this IWebElement webElement)
+    {
+      return new SearchableDocument(webElement);
+    }
 
     /// <summary>
-    /// Converts the element into a <see cref="SearchableElement"/>
+    ///   Converts the element into a <see cref="SearchableElement" />
     /// </summary>
     /// <param name="webElement"></param>
     /// <returns></returns>
     [Pure]
-    public static SearchableElement ToSearchableElement(this IWebElement webElement) =>
-      new SearchableElement(webElement);
+    public static SearchableElement ToSearchableElement(this IWebElement webElement)
+    {
+      return new SearchableElement(webElement);
+    }
 
     /// <summary>
-    /// Gets the Outer Html from the element
+    ///   Gets the Outer Html from the element
     /// </summary>
     /// <param name="webElement"></param>
     /// <returns></returns>
     [Pure]
-    public static string OuterHtml(this IWebElement webElement) =>
-      webElement.GetAttribute("outerHTML");
+    public static string OuterHtml(this IWebElement webElement)
+    {
+      return webElement.GetAttribute("outerHTML");
+    }
+
+    /// <summary>
+    ///   Gets the Inner Html from the element
+    /// </summary>
+    /// <param name="webElement"></param>
+    /// <returns></returns>
+    [Pure]
+    // ReSharper disable once UnusedMember.Global
+    public static string InnerHtml(this IWebElement webElement)
+    {
+      return webElement.GetAttribute("innerHTML");
+    }
   }
 }

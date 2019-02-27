@@ -1,10 +1,13 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using OpenQA.Selenium;
+using Scalpel;
 
 namespace ASI.SeleniumExtensions
 {
+  [Remove]
   internal class MockWebElement : IWebElement
   {
     private readonly SearchableDocument _dom;
@@ -14,49 +17,59 @@ namespace ASI.SeleniumExtensions
       _dom = new SearchableDocument(html);
     }
 
-    public IWebElement FindElement(By @by)
+    public IWebElement FindElement(By by)
     {
       return new MockWebElement(_dom.FindElements(by).First().Text);
     }
 
-    public ReadOnlyCollection<IWebElement> FindElements(By @by)
+    public ReadOnlyCollection<IWebElement> FindElements(By by)
     {
       var elems = _dom.FindElements(by);
-     var list = elems.Select(elem => new MockWebElement(elem.Text)).Cast<IWebElement>().ToArray();
+      var list = elems.Select(elem => new MockWebElement(elem.Text)).Cast<IWebElement>().ToArray();
 
       return new ReadOnlyCollection<IWebElement>(list);
     }
 
     public void Clear()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public void SendKeys(string text)
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public void Submit()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public void Click()
     {
-      throw new System.NotImplementedException();
+      throw new NotImplementedException();
     }
 
     public string GetAttribute(string attributeName)
     {
-      return _dom.BaseElement.Attributes.ContainsKey(attributeName) ? 
-        _dom.BaseElement.Attributes[attributeName] : string.Empty;
+      switch (attributeName)
+      {
+        case "outerHTML":
+          return _dom.BaseElement.Text;
+        case "innerHTML":
+          return _dom.BaseElement.InnerText;
+        default:
+          return _dom.BaseElement.Attributes.ContainsKey(attributeName)
+            ? _dom.BaseElement.Attributes[attributeName]
+            : string.Empty;
+      }
     }
 
     public string GetProperty(string propertyName)
     {
-      return _dom.BaseElement.Attributes.ContainsKey(propertyName) ?
-        _dom.BaseElement.Attributes[propertyName] : string.Empty;
+      return _dom.BaseElement.Attributes.ContainsKey(propertyName)
+        ? _dom.BaseElement.Attributes[propertyName]
+        : string.Empty;
     }
 
     public string GetCssValue(string propertyName)
